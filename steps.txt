@@ -13,4 +13,13 @@ Steps to setup the project:
 8. Adding code in server.config.js
 9. Initialise git in your ecommerce project:
     a. Do git init (hidden file: to see hidden file press ctrl+shift+.)
-    b. 
+    b. Create a file .gitignore and add node_modules name in it so that 
+       at the time of pushing the node_modules folder is not pushed.
+    c. Do git add . 
+    d. git commit -m "My First Commit"
+    e. https://github.com/DollySingh396/E-Commerce-Project---Relevel
+    https://github.com/DollySingh396/E-Commerce-Project---Relevel.git
+
+    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
+    
+
