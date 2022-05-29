@@ -17,8 +17,10 @@ Steps to setup the project:
        at the time of pushing the node_modules folder is not pushed.
     c. Do git add . 
     d. git commit -m "My First Commit"
-    e. https://github.com/DollySingh396/E-Commerce-Project---Relevel
-    https://github.com/DollySingh396/E-Commerce-Project---Relevel.git
+    e. git remote add origin https://github.com/DollySingh396/E-Commerce-Project---Relevel.git
+    f. git push origin master
+    g. enter username and password (for password use access token)
+    
 
     
 
