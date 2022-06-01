@@ -78,7 +78,7 @@ exports.create = (req, res) => {
 
 }
 
-// GET request - get a list of all categories 
+// GET request - get a list of all categories
 
 exports.findAll = (req, res) => {
     let categoryName = req.query.name; 
@@ -129,7 +129,7 @@ exports.findOne = (res, res) => {
 }
 
 /**
- * Update the exitsing category 
+ * PUT - Update the exitsing category 
  */
 
 exports.Update = (req, res) => {
