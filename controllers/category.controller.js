@@ -82,7 +82,7 @@ exports.create = (req, res) => {
 // GET request - get a list of all categories
 
 exports.findAll = (req, res) => {
-    let categoryName = req.query.name; 
+    let categoryName = req.query.name;
     let promise;
     /**
      * if user is searching from category name then if part will execute
@@ -159,7 +159,7 @@ exports.update = (req, res) => {
                 .then(category => {
                     res.status(200).send(category);
                 })
-                .catch( err => {
+                .catch(err => {
                     res.status(500).send({
                         /**
                          * using this catch if after successfully updating the category 
@@ -191,19 +191,19 @@ exports.delete = (request, response) => {
 
     const categoryId = request.params.id;
 
-    Category.destroy(category, {
+    Category.destroy({
         where: {
             id: categoryId
         }
     })
-    .then( result => {
-        response.status(200).send({
-            message: "Category is deleted successfully"
-    })
-})
-    .catch ( error => {
-        response.status(500).send({
-            message: "Some internal error while deleting the category based on id."
-    })
-});
+        .then(result => {
+            response.status(200).send({
+                message: "Category is deleted successfully."
+            })
+        })
+        .catch(error => {
+            response.status(500).send({
+                message: "Some internal error while deleting the category based on id."
+            })
+        })
 }
