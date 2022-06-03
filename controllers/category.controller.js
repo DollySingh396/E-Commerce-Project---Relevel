@@ -120,10 +120,12 @@ exports.findOne = (req, res) => {
     Category.findByPk(categoryId)
         .then(category => {
             if(!category){
+                // if category id is not present in table then page not found error 
                 return res.status(404).send({
                     message: "Category is not found."
                 })
             }
+            //if category id is present in table then simply give details of that category
                 res.status(200).send(category);
             
         })
