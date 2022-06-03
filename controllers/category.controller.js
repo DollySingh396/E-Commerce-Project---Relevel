@@ -191,17 +191,19 @@ exports.delete = (request, response) => {
 
     const categoryId = request.params.id;
 
-    category.destroy(category, {
+    Category.destroy(category, {
         where: {
             id: categoryId
         }
     })
     .then( result => {
-        response.status(200).send("Category is deleted successfully");
+        response.status(200).send({
+            message: "Category is deleted successfully"
     })
+})
     .catch ( error => {
-        response.status(500).send(" Category is not deleted.")
+        response.status(500).send({
+            message: "Some internal error while deleting the category based on id."
     })
+});
 }
-
-
