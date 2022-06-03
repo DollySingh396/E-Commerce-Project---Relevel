@@ -11,6 +11,7 @@
  * index file to db object of controller file
  */
 
+const { category } = require("../models");
 const db = require("../models");
 
 /**
@@ -113,7 +114,7 @@ exports.findAll = (req, res) => {
  * Get a category based on id 
  */
 
-exports.findOne = (res, res) => {
+exports.findOne = (req, res) => {
     const categoryId = req.params.id;
 
     Category.findByPk(categoryId)
@@ -132,7 +133,7 @@ exports.findOne = (res, res) => {
  * PUT - Update the exitsing category 
  */
 
-exports.Update = (req, res) => {
+exports.update = (req, res) => {
 
     const category = {
         name: req.body.name,
@@ -182,5 +183,25 @@ exports.Update = (req, res) => {
 
 }
 
+/**
+ * 
+ */
+
+exports.delete = (request, response) => {
+
+    const categoryId = request.params.id;
+
+    category.destroy(category, {
+        where: {
+            id: categoryId
+        }
+    })
+    .then( result => {
+        response.status(200).send("Category is deleted successfully");
+    })
+    .catch ( error => {
+        response.status(500).send(" Category is not deleted.")
+    })
+}
 
 
