@@ -37,7 +37,8 @@ const db = {}
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.category  = require("./category.model")(sequelize, Sequelize)
+db.category  = require("./category.model")(sequelize, Sequelize);
+db.product = require("./product.model")(sequelize, Sequelize)
 
 /* passing sequelize object and Sequelize module as parameters
     so that in every model file we don't need to require them again n again
@@ -56,6 +57,9 @@ db.category  = require("./category.model")(sequelize, Sequelize)
         sequelize : sequelize
         category : function(2 parameters) {
 
+        }
+        product : function(2 parameters){
+            
         }
     }
 */

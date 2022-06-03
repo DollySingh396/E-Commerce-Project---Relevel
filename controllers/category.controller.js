@@ -119,7 +119,13 @@ exports.findOne = (req, res) => {
 
     Category.findByPk(categoryId)
         .then(category => {
-            res.status(200).send(category);
+            if(!category){
+                return res.status(404).send({
+                    message: "Category is not found."
+                })
+            }
+                res.status(200).send(category);
+            
         })
         .catch(err => {
             res.status(500).send({
