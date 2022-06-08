@@ -61,6 +61,7 @@ function init() {
 
 // requiring the routes function and passing the app instance as parameter
 require('./routes/category.routes')(app);
+require('./routes/product.routes')(app);
 
 app.listen(serverConfigs.PORT, () => {
     console.log(`Application is running on port number: ${serverConfigs.PORT}`)

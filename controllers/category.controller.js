@@ -192,7 +192,7 @@ exports.update = (req, res) => {
 }
 
 /**
- * 
+ * Delete - to delete a category using id
  */
 
 exports.delete = (request, response) => {
