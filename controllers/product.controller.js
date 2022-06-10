@@ -4,35 +4,20 @@
  * in this controller will be executed
  */
 
-const req = require('express/lib/request');
+const { product } = require("../models")
 const db = require('../models');
 const Product = db.product;
+const Op =  db.Sequelize.Op;
 
 //POST request - insert a new product in product table
 
 exports.create = (request, response) => {
 
-    /**
-     *  Validation of request body
-     */
-    if( !request.body.name) {
-        response.status(400).send( {
-            message: "Name of the product can't be empty !"
-        });
-        return;
-    }
-
-    if( !request.body.cost) {
-        response.status(400).send( {
-            message: "Cost of the product can't be empty !"
-        });
-        return;
-    }
-
     const product = {
         name: request.body.name,
         description: request.body.description,
-        cost: request.body.cost
+        cost: request.body.cost,
+        categoryId: request.body.categoryId
     }
 
     Product.create(product)
@@ -53,6 +38,8 @@ exports.create = (request, response) => {
 
 exports.findAll = (req, res) => {
     let productName = req.query.name;
+    let minCost = req.query.minCost;
+    let maxCost = req.query.maxCost;
     let promise;
     /**
      * if user is searching from category name then if part will execute
@@ -63,7 +50,36 @@ exports.findAll = (req, res) => {
                 name: productName
             }
         })
-    } else {
+    }
+    else if(minCost && maxCost){
+        promise = Product.findAll({
+            where: {
+                cost:{
+                    [Op.gte] : minCost,
+                    [Op.lte] : maxCost
+                }
+            }
+        })
+    } 
+    else if(minCost){
+        promise = Product.findAll({
+            where: {
+                cost:{
+                    [Op.gte] : minCost
+                }
+            }
+        })
+    } 
+    else if(maxCost){
+        promise = Product.findAll({
+            where: {
+                cost:{
+                    [Op.lte] : maxCost
+                }
+            }
+        })
+    } 
+    else {
         promise = Product.findAll();
 
     }
@@ -112,29 +128,14 @@ exports.findAll = (req, res) => {
  * PUT - Update the exitsing product 
  */
 
- exports.update = (req, res) => {
-
-    if( !request.body.name) {
-        response.status(400).send( {
-            message: "Name of the product can't be empty !"
-        });
-        return;
-    }
-
-    if( !request.body.cost) {
-        response.status(400).send( {
-            message: "Cost of the product can't be empty !"
-        });
-        return;
-    }
-
+ exports.update = (request, response) => {
     const product = {
-        name: req.body.name,
-        description: req.body.description,
-        cost: req.body.cost 
+        name: request.body.name,
+        description: request.body.description,
+        cost: request.body.cost
     }
 
-    const productId = req.params.id;
+    const productId = request.params.id;
 
     Product.update(product, {
         where: {
@@ -151,10 +152,10 @@ exports.findAll = (req, res) => {
 
             Product.findByPk(productId)
                 .then(product => {
-                    res.status(200).send(product);
+                    response.status(200).send(product);
                 })
                 .catch(err => {
-                    res.status(500).send({
+                    response.status(500).send({
                         /**
                          * using this catch if after successfully updating the category 
                          * then fetching the updated details to send as response to the client
@@ -165,11 +166,13 @@ exports.findAll = (req, res) => {
                 })
         })
         .catch(err => {
-            res.status(500).send({
+            console.log(err);
+            response.status(500).send({
                 /**
                  * using this catch if the updation operation fails 
                  * then sending the msg as response to the client
                  */
+                
                 message: "Some internal serevr error while updating the category details by id"
             })
 

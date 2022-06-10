@@ -29,25 +29,6 @@ const Category = db.category;
 exports.create = (req, res) => {
 
     /**
-     * validating if the request boday has name, if it is empty then 
-     * it is not a valid request because name cannot be empty
-     * whereas description can be empty so no check is added for description column
-     */
-    if (!req.body.name) {
-        /**
-         * request not valid so send response status 400 client side error
-         * and sending back the message to the client
-         */
-        res.status(400).send({
-            message: "Name of category can not be empty !"
-        })
-        /**
-         * request is invalid then simply return, no further execution.
-         */
-        return;
-    }
-
-    /**
      * created a category object which has name and description
      */
     const category = {

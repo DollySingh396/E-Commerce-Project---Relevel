@@ -22,9 +22,16 @@ app.use(BodyParser.json());
  */
 const db = require('./models');
 
+
 // passing the category schema to Category object
 const Category = db.category;
+const Product = db.product;
 
+// relationship from category to product is many to one beacuse 
+// one category can have many products
+// now this will create a foreign key column in product table as categoryId
+// which will point to id column of Category table which is a primary key
+Category.hasMany(Product);
 
 // sync function will drop whatever data that already exists in category table  
 // and create a new category table again
