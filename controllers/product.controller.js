@@ -4,9 +4,6 @@
  * in this controller will be executed
  */
 
-const { response } = require("express");
-const { request } = require("express");
-const { product } = require("../models")
 const db = require('../models');
 const Product = db.product;
 const Op =  db.Sequelize.Op;

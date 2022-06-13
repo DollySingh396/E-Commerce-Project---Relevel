@@ -23,9 +23,11 @@ app.use(BodyParser.json());
 const db = require('./models');
 
 
+
 // passing the category schema to Category object
 const Category = db.category;
 const Product = db.product;
+const Role = db.role;
 
 // relationship from category to product is many to one beacuse 
 // one category can have many products
@@ -64,11 +66,27 @@ function init() {
         console.log( "Error while initialising the Category table.")
     })
 
+    /**
+     *  creating 2 entries in role table
+     *  only 2 roles are present 
+     *  user - roleid as 1
+     *  admin - roleid as 2
+     */
+    Role.create({
+        id : 1,
+        name: "user"
+    });
+    Role.create({
+        id: 2,
+        name: "admin"
+    })
+
 }
 
 // requiring the routes function and passing the app instance as parameter
 require('./routes/category.routes')(app);
 require('./routes/product.routes')(app);
+require('./routes/auth.routes')(app);
 
 app.listen(serverConfigs.PORT, () => {
     console.log(`Application is running on port number: ${serverConfigs.PORT}`)

@@ -42,6 +42,9 @@ db.product = require("./product.model")(sequelize, Sequelize);
 db.user = require("./user.model")(sequelize, Sequelize);
 db.role = require("./role.model")(sequelize, Sequelize);
 
+// created a new key in db object which has array of values 
+db.ROLES = ["user", "admin"];
+
 
 /* passing sequelize object and Sequelize module as parameters
     so that in every model file we don't need to require them again n again
@@ -69,7 +72,8 @@ db.role = require("./role.model")(sequelize, Sequelize);
         },
         role : function(2 parameters){
             
-        }
+        },
+        Roles: [user, admin]
 
     }
 */
