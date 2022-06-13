@@ -38,7 +38,10 @@ const db = {}
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.category  = require("./category.model")(sequelize, Sequelize);
-db.product = require("./product.model")(sequelize, Sequelize)
+db.product = require("./product.model")(sequelize, Sequelize);
+db.user = require("./user.model")(sequelize, Sequelize);
+db.role = require("./role.model")(sequelize, Sequelize);
+
 
 /* passing sequelize object and Sequelize module as parameters
     so that in every model file we don't need to require them again n again
@@ -53,17 +56,59 @@ db.product = require("./product.model")(sequelize, Sequelize)
 
 /* db object will look like 
     db = {
-        Sequelize : Sequelize 
-        sequelize : sequelize
+        Sequelize : Sequelize,
+        sequelize : sequelize,
         category : function(2 parameters) {
 
-        }
+        },
         product : function(2 parameters){
             
+        },
+        user : function(2 parameters){
+            
+        },
+        role : function(2 parameters){
+            
         }
+
     }
 */
 
-/* exporting the file so that it can be used by other files */
+/**
+ *  relationship from category to product is many to one beacuse 
+    one category can have many products
+    now this will create a foreign key column in product table as categoryId
+    which will point to id column of Category table which is a primary key
+ */
+db.category.hasMany(db.product)
 
+/**
+ *  Establishing Realtionship bewteen User and Role
+ *  User and Role will have many to many relationship
+ *  so, one table 'users' is created for user
+ *  second table 'roles' is created for role
+ *  and third table 'user_role_relationship' is created for the realtionship 
+ *  bcz it is many to many relationship so a new table will be created for the realtion
+ */
+
+/**
+ *   how to define many to many relation
+ *   through means the realtion table with which they hold the relationship
+ *   user_role_relationship this table will be created automatically
+ *  
+ *    user_role_relationship fields:
+ *    1. userId --- this is a foreign key which points to id column of users table which is a primary key
+ *    2. roleId --- this is a foreign key which points to id column of roles table which is a primary key
+ *   
+*/
+db.role.belongsToMany( db.user, {
+    through: "user_role_relationship",
+    foreignKey: "roleId"
+});
+db.user.belongsToMany( db.role, {
+    through: "user_role_relationship",
+    foreignKey: "userId"
+});
+
+/* exporting the file so that it can be used by other files */
 module.exports = db;

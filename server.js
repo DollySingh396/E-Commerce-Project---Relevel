@@ -31,7 +31,7 @@ const Product = db.product;
 // one category can have many products
 // now this will create a foreign key column in product table as categoryId
 // which will point to id column of Category table which is a primary key
-Category.hasMany(Product);
+//Category.hasMany(Product); -- moved to index.js in models
 
 // sync function will drop whatever data that already exists in category table  
 // and create a new category table again

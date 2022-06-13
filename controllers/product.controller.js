@@ -4,6 +4,8 @@
  * in this controller will be executed
  */
 
+const { response } = require("express");
+const { request } = require("express");
 const { product } = require("../models")
 const db = require('../models');
 const Product = db.product;
@@ -132,7 +134,8 @@ exports.findAll = (req, res) => {
     const product = {
         name: request.body.name,
         description: request.body.description,
-        cost: request.body.cost
+        cost: request.body.cost,
+        categoryId: request.body.categoryId
     }
 
     const productId = request.params.id;
@@ -205,4 +208,27 @@ exports.findAll = (req, res) => {
         })
 }
 
+/**
+ *  Get request to fetch all products under a specific category
+ */
+
+exports.getProductsUnderCategory = (request, response) => {
+
+    const categoryId = parseInt(request.params.categoryId);
+
+    Product.findAll({
+        where: {
+            categoryId : categoryId
+        }
+    })
+    .then( products => {
+        response.status(200).send(products);
+    })
+    .catch( error => {
+        response.status(500).send({
+            message : " Some Internal error while fetching the products based on category Id."
+        })
+    })
+
+}
 
