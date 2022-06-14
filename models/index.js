@@ -41,6 +41,7 @@ db.category  = require("./category.model")(sequelize, Sequelize);
 db.product = require("./product.model")(sequelize, Sequelize);
 db.user = require("./user.model")(sequelize, Sequelize);
 db.role = require("./role.model")(sequelize, Sequelize);
+db.cart = require("./cart.model")(sequelize, Sequelize)
 
 // created a new key in db object which has array of values 
 db.ROLES = ["user", "admin"];
@@ -71,6 +72,9 @@ db.ROLES = ["user", "admin"];
             
         },
         role : function(2 parameters){
+            
+        },
+        cart: function(2 parameters){
             
         },
         Roles: [user, admin]
@@ -113,6 +117,39 @@ db.user.belongsToMany( db.role, {
     through: "user_role_relationship",
     foreignKey: "userId"
 });
+/**
+ *  Relationship between cart and products - Many to Many
+ *  one cart can have many products
+ *  one product can be present in many user's cart
+ *  here we are talking about different users 
+ *  
+ */
+ db.product.belongsToMany( db.cart, {
+    through: "cart_product_relationship",
+    foreignKey: "productId"
+});
+
+db.cart.belongsToMany( db.product, {
+    through: "cart_product_relationship",
+    foreignKey: "cartId"
+});
+
+/**
+ *  Relationship between user and cart is Many to one
+ *  one user can have many cart over lifetime
+ *  creatd=ed one cart then placed order then create a new cart and placed order and so on
+ *  so one user can create many carts over life time
+ * 
+ *  we can use belongsToMany or hasMany both for defining this relationship 
+ *  only difference is like belongsToMany allows to define foreignkey and realtionship table
+ *  
+ *  in cart table we will have userid as foreign key which will point to
+ *  id of user table which is primary key
+ *  
+ *  
+ */
+
+db.user.hasMany(db.cart);
 
 /* exporting the file so that it can be used by other files */
 module.exports = db;

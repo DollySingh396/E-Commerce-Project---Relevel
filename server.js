@@ -87,6 +87,7 @@ function init() {
 require('./routes/category.routes')(app);
 require('./routes/product.routes')(app);
 require('./routes/auth.routes')(app);
+require('./routes/cart.routes')(app);
 
 app.listen(serverConfigs.PORT, () => {
     console.log(`Application is running on port number: ${serverConfigs.PORT}`)
