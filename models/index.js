@@ -135,14 +135,11 @@ db.cart.belongsToMany( db.product, {
 });
 
 /**
- *  Relationship between user and cart is Many to one
+ *  Relationship between user and cart is One to Many
  *  one user can have many cart over lifetime
- *  creatd=ed one cart then placed order then create a new cart and placed order and so on
+ *  creatded one cart then placed order then create a new cart and placed order and so on
  *  so one user can create many carts over life time
  * 
- *  we can use belongsToMany or hasMany both for defining this relationship 
- *  only difference is like belongsToMany allows to define foreignkey and realtionship table
- *  
  *  in cart table we will have userid as foreign key which will point to
  *  id of user table which is primary key
  *  
