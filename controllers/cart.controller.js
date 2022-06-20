@@ -1,13 +1,17 @@
 
+const { response } = require("express");
+const { request } = require("express");
 const db = require("../models");
 const Product = db.product;
 const Cart = db.cart;
 const Op = db.Sequelize.Op;
+const { STATUS } = require('../configs/cart.status.config')
 
 exports.create = (request, response) => {
 
     const cart = {
-        userId: request.userId // this userId is we are getting from middlewares after decoding
+        userId: request.userId, // this userId is we are getting from middlewares after decoding
+        status: STATUS.CREATION
     }
 
     Cart.create(cart)
@@ -100,8 +104,65 @@ exports.getCart = (request, response) => {
             res.status(200).send({
                 id: cart.id,
                 productSelected: ProductSelected,
-                cost: cost
+                cost: cost,
+                status: cart.status
             })
+        })
+    })
+}
+
+exports.delete = (request, response) => {
+
+    const cartId = request.params.cartId;
+
+    Cart.destroy({
+        where: {
+            id: cartId
+        }
+    })
+    .then(result => {
+        response.status(200).send({
+            message: "Successfully deleted the cart"
+        })
+    })
+    .catch( error => {
+        response.status(500).send({
+            message: "Some internal error while deleting the cart"
+        })
+    })
+}
+
+exports.changeCartStatus = ( request, response ) => {
+
+    const cart = {
+        id: request.params.cartId,
+        status: request.params.status,
+        userId : request.userId
+    };
+
+
+    const cartId = request.params.cartId
+
+    Cart.update(cart, {
+        where: {
+            id: cartId
+        }
+    })
+    .then( updatedCart => {
+        cart.findByPk(cartId)
+        .then( cart => {
+            response.status(200).send(cart);
+        })
+        .catch(error => {
+            response.status(500).send({
+                message: "Some internal error while fetching the cart based on id"
+            })
+        })
+
+    })
+    .catch( error => {
+        response.status(500).send({
+            message: "Some internal error while updating the cart status based on id"
         })
     })
 }

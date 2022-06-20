@@ -3,7 +3,7 @@
 *
 *    Cart fields:
 *    1. id
-*    2. cost
+*    
 */
 
 module.exports = (sequelize, Sequelize) => {
@@ -14,9 +14,11 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
-        cost: {
-            type: Sequelize.INTEGER
+        status: {
+            type : Sequelize.STRING,
+            allowNull : false
         }
+        
     });
     return Cart;
 }

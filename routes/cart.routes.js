@@ -5,6 +5,7 @@
  */
 const { authjwt} = require("../middlewares");
 const cartController = require("../controllers/cart.controller");
+const authJwt = require("../middlewares/authjwt");
 
 module.exports = function(app) {
     
@@ -16,5 +17,12 @@ module.exports = function(app) {
 
     // Route for the GET request, when user get cart details
     app.get("/ecom/api/v1/carts/:cartId", [authjwt.verifyToken], cartController.getCart);
+
+    // Route for the DELETE request, when user delete the cart 
+    app.delete("/ecom/api/v1/carts/:cartId", [authjwt.verifyToken], cartController.delete );
+
+    // Route for the PUT request, when user updates the cart status
+    app.put("/ecom/api/v1/carts/:cartId/:status", [authjwt.verifyToken], cartController.changeCartStatus );
+
 
 }
